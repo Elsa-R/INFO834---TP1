@@ -15,7 +15,7 @@ const incrementToken = (req, res, token, d) => {
         }
         else{
             req.session.logged = false;
-            res.status(400).json({error : "Vous avez utilisé votre quota de requêtes, veuillez attendre 10min avant de réessayer"});
+            res.status(400).json({error : "Vous vous êtes trop connecté, veuillez attendre 10 min"});
         }
     });
 }
@@ -23,7 +23,7 @@ const incrementToken = (req, res, token, d) => {
 function connectToken(req, token){
     const jwt = require('jsonwebtoken')
     try{
-        const payload = jwt.verify(token, "My so secret sentence");
+        const payload = jwt.verify(token, "123456");
         req.session.logged = true;
         req.session.token = token;
 
@@ -35,8 +35,8 @@ function connectToken(req, token){
     return req;
 }
 
-function readData(req, res) {
-    let Data = require("../Models/modelRedis");
+function readRedis(req, res) {
+    let Redis = require("../Models/modelRedis");
     const token = req.header('Authorization').replace('Bearer ', '');
 
     if (req.session.logged !== true || req.session.token !== token){
@@ -45,7 +45,7 @@ function readData(req, res) {
 
 
     if (req.session.logged === true){
-        Data.find({})
+        Redis.find({})
         .then((d) => {
                 client.exists(token, function(err, reply){
 
@@ -65,23 +65,23 @@ function readData(req, res) {
         });
     }
     else{
-        res.status(400).json({error : "Veuillez renseigner un token valide"});
+        res.status(400).json({error : "Token non valide"});
     }
  }
 
-function addData(req, res) {
-    let Data = require("../Models/modelRedis");
-    let newData = Data ({});
+function addRedis(req, res) {
+    let Redis = require("../Models/modelRedis");
+    let newRedis = Redis ({});
 
-    newData.save()
-    .then((savedData) => {
+    newRedis.save()
+    .then((savedRedis) => {
 
-        res.json(savedData);
+        res.json(savedRedis);
             
     }, (err) => {
         res.status(400).json(err)
     });
 }
 
-module.exports.readData = readData;
-module.exports.addData = addData;
+module.exports.readRedis = readRedis;
+module.exports.addRedis = addRedis;

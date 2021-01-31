@@ -2,11 +2,11 @@ var mongoose = require('mongoose');
 
 var Schema = mongoose.Schema;
 
-var DataSchema = new Schema({
-    data : {
+var RedisSchema = new Schema({
+    redis : {
         type : Date,
         default : Date.now
     }
 });
 
-module.exports = mongoose.model('Data', DataSchema);
+module.exports = mongoose.model('Redis', RedisSchema);

@@ -4,6 +4,10 @@ const app = express()
 const port = 3000
 //to access form data
 const bodyParser = require('body-parser');
+//Accessing the routes for the user
+const userRoutes = require('../routes/routeUser');
+const redisRoutes = require('../routes/routeRedis');
+
 
 var mongoose = require('mongoose');
 
@@ -15,15 +19,11 @@ app.use(bodyParser.urlencoded({
   }));
   
 app.use(bodyParser.json());
-  
-//Accessing the routes for the user
-const userRoutes = require('../routes/routeUser');
-const redisRoutes = require('../routes/routeRedis');
 
-//Acces the routes 
-app.use(userRoutes);
-app.use(redisRoutes);
-app.use(http404.notFound); 
+let session = require('express-session');
+
+let MongoStore = require('connect-mongo')(session);
+  
 
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`)
@@ -34,3 +34,18 @@ mongoose.connect(connStr, function (err) {
     if (err) throw err;
     console.log('Successfully connected to MongoDB');
 });
+
+//setting session
+app.use(session({
+
+  resave: true,
+  saveUninitialized: true,
+  secret: 'mySecretKey',
+  store: new MongoStore({ url: 'mongodb://localhost:27017/mongoose-bcrypt-test', autoReconnect: true})
+
+}));
+
+//Acces the routes 
+app.use(redisRoutes);
+app.use(userRoutes);
+app.use(http404.notFound); 
