@@ -1,5 +1,5 @@
 {
-  "name": "info834---tp1",
+  "name": "info834_tp1",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -8,18 +8,22 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Elsa-R/INFO834---TP1.git"
+    "url": "git+https://github.com/anais-ferrera/INFO834_TP1.git"
   },
-  "author": "",
+  "author": "anais ferrera",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Elsa-R/INFO834---TP1/issues"
+    "url": "https://github.com/anais-ferrera/INFO834_TP1/issues"
   },
-  "homepage": "https://github.com/Elsa-R/INFO834---TP1#readme",
+  "homepage": "https://github.com/anais-ferrera/INFO834_TP1#readme",
   "dependencies": {
     "bcrypt": "^5.0.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.11.13"
+    "mongoose": "^5.11.13",
+    "passport": "^0.4.1",
+    "passport-jwt": "^4.0.0",
+    "redis": "^3.0.2",
+    "secrets-js": "^0.9.2"
   }
 }
